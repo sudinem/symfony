@@ -1,0 +1,43 @@
+ess_role:
+    resource: "@ESSRoleBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ess_user:
+    resource: "@ESSUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ess_admin:
+    resource: "@ESSAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+
+admin:
+    pattern: /admin
+    defaults: {_controller: ESSAdminBundle:Admin:index}
+    
+login:
+    pattern: /login
+    defaults: {_controller: ESSUserBundle:User:index}
+    
+main_dashboard:
+    pattern: /main/home
+    defaults: {_controller: ESSUserBundle:User:home}
+
+admin_dashboard:
+    pattern: /admin/home
+    defaults: {_controller: ESSAdminBundle:Admin:home}
+    
+login_check: 
+    pattern: /login_check
+    
+admin_login_check:
+    pattern: /admin/login_check
+    
+admin_logout:
+    pattern: /admin/logout
+    
+main_logout:
+    pattern: /main/logout

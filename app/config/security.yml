@@ -1,0 +1,84 @@
+security:
+    encoders:
+        ESS\UserBundle\Entity\User: 
+            algorithm: sha512
+            encode-as-base64: true
+            iterations: 1
+        
+        ESS\AdminBundle\Entity\AdminUser:
+            algorithm: sha512
+            encode-as-base64: true
+            iterations: 1
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+#        chain_provider:
+#            chain:
+#                providers: [company_security, admin_security]
+                
+        admin_area:
+            name: admin_security
+            entity: {class: ESSAdminBundle:AdminUser, property: username }
+            
+        company_area:
+            name: company_security
+            entity: { class: ESSUserBundle:User, property: username }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+            
+        admin_area:
+            pattern:    ^/admin
+            provider: admin_security
+            anonymous: ~
+            form_login:
+                login_path:  /admin
+                check_path:  /admin/login_check
+                default_target_path: /admin/home
+                failure_path: /admin
+             
+            logout:
+                path:   /admin/logout
+                target: /admin  
+        
+        company_area:
+            pattern:    ^/login
+            anonymous: ~
+            provider: company_security
+            form_login:
+                login_path:  /login
+                check_path: login_check
+                default_target_path: /main/home
+                failure_path: /login
+             
+            logout:
+                path:   /main/logout
+                target: /login  
+
+#        login:
+#            pattern:  ^/demo/secured/login$
+#            security: false
+#
+#        secured_area:
+#            pattern:    ^/demo/secured/
+#            form_login:
+#                check_path: _security_check
+#                login_path: _demo_login
+#            logout:
+#                path:   _demo_logout
+#                target: _demo
+            #anonymous: ~
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    access_control:
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/.*, role: ROLE_ADMIN }
+        - { path: ^/main/.*, role: ROLE_ADMIN }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

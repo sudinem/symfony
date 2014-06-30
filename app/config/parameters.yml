@@ -1,0 +1,21 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_pgsql
+    database_host: localhost
+    database_port: 5432
+    database_name: ess
+    database_user: postgres
+    database_password: postgres
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: caf07167d8cb9b6497575524450515e235b4f905
+    
+    database_driver2: pdo_pgsql
+    database_host2: localhost
+    database_port2: 5432
+    database_name2: ess_company
+    database_user2: postgres
+    database_password2: postgres
